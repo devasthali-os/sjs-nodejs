@@ -1,0 +1,27 @@
+{
+  "name": "sjs-nodejs",
+  "version": "1.0.0",
+  "description": "scalajs to js npm module",
+  "main": "sbt.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duwamish-os/sjs-nodejs.git"
+  },
+  "dependenccies": {
+     "request": "^2.88.0",
+     "yauzl": "^2.10.0"
+  },
+  "keywords": [
+    "scalajs",
+    "npm"
+  ],
+  "author": "prayagupd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/duwamish-os/sjs-nodejs/issues"
+  },
+  "homepage": "https://github.com/duwamish-os/sjs-nodejs#readme"
+}
