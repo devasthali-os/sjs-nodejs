@@ -7,11 +7,12 @@ var yauzl = require("yauzl");
 
 var sbtUrl = "https://piccolo.link/sbt-1.2.7.zip";
 var output = "sbt.zip";
+var destination = 'node_modules'
 
 http_client({url: sbtUrl, encoding: null}, function(err, resp, body) {
   if(err) throw err;
   fs.writeFile(output, body, function(err) {
-    console.log("sbt downloaded");
+    console.log("[INFO] sbt downloaded");
     setup_sbt(() => chmod_sbt());
   });
 });
@@ -22,7 +23,7 @@ function mkdirp(dir, cb) {
     if (err == null) return cb(); // already exists
 
     var parent = path.dirname(dir);
-    console.log("[INFO] " + parent)
+    //console.log("[INFO] " + parent)
     mkdirp(parent, function() {
       process.stdout.write(dir.replace(/\/$/, "") + "/\n");
       fs.mkdir(dir, function() {
@@ -44,19 +45,19 @@ yauzl.open("sbt.zip", {lazyEntries: true}, function(err, zipfile) {
       // Directory file names end with '/'.
       // Note that entires for directories themselves are optional.
       // An entry's fileName implicitly requires its parent directories to exist.
-      mkdirp(entry.fileName, function() {
+      mkdirp(destination + '/' + entry.fileName, function() {
         if (err) throw err;
         zipfile.readEntry();
       });
     } else {
-     mkdirp(path.dirname(entry.fileName), function() {
+     mkdirp(destination + '/' + path.dirname(entry.fileName), function() {
       // file entry
       zipfile.openReadStream(entry, function(err, readStream) {
         if (err) throw err;
         readStream.on("end", function() {
           zipfile.readEntry();
         });
-        var writeStream = fs.createWriteStream(entry.fileName, { mode: '777'});
+        var writeStream = fs.createWriteStream(destination + '/' + entry.fileName, { mode: '777'});
 	readStream.pipe(writeStream);
 //        fn();
       });
