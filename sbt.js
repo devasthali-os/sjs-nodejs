@@ -56,7 +56,7 @@ yauzl.open("sbt.zip", {lazyEntries: true}, function(err, zipfile) {
         readStream.on("end", function() {
           zipfile.readEntry();
         });
-        var writeStream = fs.createWriteStream(entry.fileName);
+        var writeStream = fs.createWriteStream(entry.fileName, { mode: '777'});
 	readStream.pipe(writeStream);
 //        fn();
       });
