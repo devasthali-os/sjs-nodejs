@@ -1,0 +1,6 @@
+node_modules
+sbt.zip
+project/
+package-lock.json
+build.sbt
+
