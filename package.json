@@ -1,9 +1,12 @@
 {
   "name": "sjs-nodejs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "scalajs to js npm module",
   "main": "sbt.js",
   "scripts": {
+    "sbtInit": "node node_modules/sjs-nodejs/index.js",                                                
+    "sjsBuild": "npm run sbtInit; node_modules/sbt/bin/sbt fastOptJS",                                 
+    "sjs": "node_modules/sbt/bin/sbt run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

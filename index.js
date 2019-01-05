@@ -5,7 +5,7 @@ var zlib = require('zlib');
 var http_client = require('request');
 var yauzl = require("yauzl");
 
-var sbtUrl = "https://piccolo.link/sbt-1.2.7.zip";
+var sbtUrl = "https://piccolo.link/sbt-1.0.1.zip";
 var output = "sbt.zip";
 var destination = 'node_modules'
 
