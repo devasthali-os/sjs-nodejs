@@ -4,6 +4,8 @@ sjs-nodejs
 This is a npm module to help transpile scalajs code to js using sbt plugin
 sincce scalajs itself has no support for transpilinng.
 
+npm mudule at - https://www.npmjs.com/package/sjs-nodejs
+
 example repository
 
 ```
