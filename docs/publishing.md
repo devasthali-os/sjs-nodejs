@@ -117,12 +117,53 @@ npm publish --access public
 npm publish
 ```
 
-### Publish with 2FA
+### Publish with 2FA (required for most accounts)
 
-If your account requires 2FA for publishing:
+npm returns **403 Forbidden** with *"Two-factor authentication or granular access token with bypass 2fa enabled is required"* when your account enforces 2FA for publishes but the current login/token does not satisfy it.
 
-- **Authorization only** — `npm publish` prompts for OTP when needed.
-- **Authorization and writes** — OTP required for every publish; use your authenticator app when prompted.
+**Option A — Enable 2FA and publish interactively (recommended)**
+
+1. Open [https://www.npmjs.com/settings/~profile/tfa](https://www.npmjs.com/settings/~profile/tfa) (or **Account** → **Enable 2FA**).
+2. Choose **Authorization and writes** (required to publish) or **Authorization only** (publish may still prompt for OTP).
+3. Log in again so the CLI picks up the session:
+
+   ```bash
+   npm logout
+   npm login
+   ```
+
+4. Publish; when prompted, enter the 6-digit code from your authenticator app:
+
+   ```bash
+   npm publish
+   ```
+
+   Or pass the OTP in one shot:
+
+   ```bash
+   npm publish --otp=123456
+   ```
+
+**Option B — Granular access token (CI or scripts)**
+
+1. [https://www.npmjs.com/settings/~tokens](https://www.npmjs.com/settings/~tokens) → **Generate New Token** → **Granular Access Token**.
+2. Permissions: **Read and write** for package `sjs-nodejs` (or all packages you maintain).
+3. Enable **Bypass two-factor authentication for publish and unpublish actions** (only if your org policy allows it).
+4. Use the token instead of a password:
+
+   ```bash
+   npm logout
+   npm login   # username + password; use the token as the password when prompted
+   # or set in ~/.npmrc:
+   # //registry.npmjs.org/:_authToken=npm_xxxxxxxx
+   npm publish
+   ```
+
+**Option C — Classic token with publish**
+
+Classic **Automation** tokens can publish without OTP on some accounts; **Publish** tokens require OTP. Prefer granular tokens for new setups.
+
+If 2FA is already enabled and you still see 403, run `npm logout && npm login` and retry with `--otp`.
 
 ## Verify on npm
 
@@ -152,7 +193,8 @@ npm deprecate sjs-nodejs@2.0.0 "Reason; upgrade to 2.0.1"
 
 | Error | What to do |
 |-------|------------|
-| `403 Forbidden` | Not logged in, not a maintainer, or 2FA required — run `npm login` and check `npm owner ls`. |
+| `403 Forbidden` … **Two-factor authentication … required to publish** | Enable 2FA on npm (**Authorization and writes**), then `npm logout && npm login` and `npm publish --otp=XXXXXX`. Or use a granular token with **bypass 2fa** for publish. |
+| `403 Forbidden` (other) | Not logged in or not a maintainer — run `npm login` and `npm owner ls sjs-nodejs`. |
 | `402 Payment Required` | Scoped package published without `--access public` on a free account. |
 | `You cannot publish over the previously published versions` | Bump `version` in `package.json`. |
 | `package name too similar` | Choose a different name or prove ownership to npm support. |
