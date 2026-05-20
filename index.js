@@ -8,6 +8,12 @@ var yauzl = require("yauzl");
 var sbtUrl = "https://github.com/sbt/sbt/releases/download/v1.10.7/sbt-1.10.7.zip";
 var output = "sbt.zip";
 var destination = 'node_modules'
+var sbtBin = path.join(destination, 'sbt', 'bin', 'sbt');
+
+if (fs.existsSync(sbtBin)) {
+  console.log("[INFO] sbt already installed at " + path.join(destination, 'sbt'));
+  process.exit(0);
+}
 
 http_client({url: sbtUrl, encoding: null}, function(err, resp, body) {
   if(err) throw err;
@@ -39,6 +45,7 @@ console.log("setting up sbt")
 yauzl.open("sbt.zip", {lazyEntries: true}, function(err, zipfile) {
   if (err) throw err;
   zipfile.readEntry();
+  zipfile.on("end", fn);
   zipfile.on("entry", function(entry) {
     //console.log("entry: " + entry.fileName)
     if (/\/$/.test(entry.fileName)) {
@@ -66,8 +73,7 @@ yauzl.open("sbt.zip", {lazyEntries: true}, function(err, zipfile) {
 });
 }
 
-// chmod -R 777 sbt
 function chmod_sbt() {
-  fs.chmod('sbt', 777)
+  fs.chmodSync(sbtBin, 0o755);
+  console.log("[INFO] sbt ready at " + sbtBin);
 }
-
