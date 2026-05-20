@@ -5,7 +5,7 @@ var zlib = require('zlib');
 var http_client = require('request');
 var yauzl = require("yauzl");
 
-var sbtUrl = "https://piccolo.link/sbt-1.0.1.zip";
+var sbtUrl = "https://github.com/sbt/sbt/releases/download/v1.10.7/sbt-1.10.7.zip";
 var output = "sbt.zip";
 var destination = 'node_modules'
 
@@ -59,7 +59,6 @@ yauzl.open("sbt.zip", {lazyEntries: true}, function(err, zipfile) {
         });
         var writeStream = fs.createWriteStream(destination + '/' + entry.fileName, { mode: '777'});
 	readStream.pipe(writeStream);
-//        fn();
       });
     });
    }

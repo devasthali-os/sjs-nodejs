@@ -1,11 +1,12 @@
 {
   "name": "sjs-nodejs",
-  "version": "1.0.1",
-  "description": "scalajs to js npm module",
-  "main": "sbt.js",
+  "version": "2.0.0",
+  "description": "npm helper to bootstrap sbt and link Scala.js (Scala 3) to JavaScript",
+  "main": "index.js",
   "scripts": {
-    "sbtInit": "node node_modules/sjs-nodejs/index.js",                                                
-    "sjsBuild": "npm run sbtInit; node_modules/sbt/bin/sbt fastOptJS",                                 
+    "sbtInit": "node node_modules/sjs-nodejs/index.js",
+    "sjsBuild": "npm run sbtInit && node_modules/sbt/bin/sbt fastLinkJS",
+    "sjsBuildFull": "npm run sbtInit && node_modules/sbt/bin/sbt fullLinkJS",
     "sjs": "node_modules/sbt/bin/sbt run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,12 +20,22 @@
   },
   "keywords": [
     "scalajs",
+    "scala3",
+    "sbt",
     "npm"
   ],
-  "author": "prayagupd",
+  "author": "prayagupa",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/duwamish-os/sjs-nodejs/issues"
+    "url": "https://github.com/devasthali-os/sjs-nodejs/issues"
   },
-  "homepage": "https://github.com/duwamish-os/sjs-nodejs#readme"
+  "homepage": "https://github.com/devasthali-os/sjs-nodejs#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "scalajs": {
+    "sbtVersion": "1.10.7",
+    "scalaVersion": "3.5.2",
+    "scalajsVersion": "1.21.0"
+  }
 }
